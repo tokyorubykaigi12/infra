@@ -1,0 +1,5 @@
+Dir.glob("#{File.expand_path(__dir__)}/{policies,roles,users}/*.iam") do |path|
+  require path
+end
+
+# vim: set ft=ruby :

@@ -1,0 +1,7 @@
+source 'https://rubygems.org'
+
+# https://github.com/cookpad/miam/issues/54
+gem 'miam', git: 'https://github.com/cookpad/miam.git', ref: 'f1d53f49da60f3e1cb5539a25c889f01e162dfb9'
+gem 'base64'
+gem 'nokogiri'
+gem 'rubocop'

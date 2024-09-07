@@ -1,0 +1,26 @@
+role "AWSServiceRoleForSupport", path: "/aws-service-role/support.amazonaws.com/" do
+  instance_profiles(
+    # no instance_profile
+  )
+
+  max_session_duration 3600
+
+  assume_role_policy_document do
+    {
+      "Statement"=> [
+        {
+          "Action" => "sts:AssumeRole",
+          "Effect" => "Allow",
+          "Principal" => {"Service"=>"support.amazonaws.com"}
+        }
+      ],
+      "Version" => "2012-10-17"
+    }
+  end
+
+  attached_managed_policies(
+    "arn:aws:iam::aws:policy/aws-service-role/AWSSupportServiceRolePolicy"
+  )
+end
+
+# vim: set ft=ruby :
