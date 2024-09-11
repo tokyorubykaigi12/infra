@@ -1,0 +1,69 @@
+role "Trk12SponsorAppProduction", path: "/" do
+  assume_role_policy_document do
+    {
+      "Version" => "2012-10-17",
+      "Statement" => [
+        {
+          "Effect" => "Allow",
+          "Principal" => { "Federated" => "arn:aws:iam::529088264854:oidc-provider/oidc.fly.io/tokyorubykaigi12" },
+          "Action" => "sts:AssumeRoleWithWebIdentity",
+          "Condition" => {
+            "StringEquals" => {
+              "oidc.fly.io/tokyorubykaigi12:aud" => "sts.amazonaws.com",
+            },
+            "StringLike" => {
+              "oidc.fly.io/tokyorubykaigi12:sub" => "tokyorubykaigi12:*:*",
+            },
+          }
+        }
+      ]
+    }
+  end
+
+  policy "assume-role" do
+    {
+      "Version" => "2012-10-17",
+      "Statement" => [
+        {
+          "Effect" => "Allow",
+          "Action" => "sts:AssumeRole",
+          "Resource" => "arn:aws:iam::529088264854:role/Trk12SponsorAppImageUploader",
+        },
+      ],
+    }
+  end
+
+  policy "image-management" do
+    {
+      "Version" => "2012-10-17",
+      "Statement" => [
+        {
+          "Effect" => "Allow",
+          "Action" => [
+            "s3:ListBucket",
+          ],
+          "Resource" => [
+            "arn:aws:s3:::trk12-sponsor-app",
+          ],
+          "Condition" => {
+            "StringLike" => {
+              "s3:prefix" => "production",
+            },
+          },
+        },
+        {
+          "Effect" => "Allow",
+          "Action" => [
+            "s3:GetObject",
+            "s3:PutObject",
+          ],
+          "Resource" => [
+            "arn:aws:s3:::trk12-sponsor-app/production/*",
+          ],
+        }
+      ],
+    }
+  end
+end
+
+# vim: set ft=ruby :
