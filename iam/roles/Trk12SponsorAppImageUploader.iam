@@ -1,0 +1,33 @@
+role "Trk12SponsorAppImageUploader", path: "/" do
+  assume_role_policy_document do
+    {
+      "Version" => "2012-10-17",
+      "Statement" => [
+        {
+          "Effect" => "Allow",
+          "Principal" => { "AWS" => "arn:aws:iam::529088264854:root" },
+          "Action" => "sts:AssumeRole"
+        }
+      ]
+    }
+  end
+
+  policy "image-upload-from-browser" do
+    {
+      "Version" => "2012-10-17",
+      "Statement" => [
+        {
+          "Effect" => "Allow",
+          "Action" => [
+            "s3:PutObject",
+          ],
+          "Resource" => [
+            "arn:aws:s3:::trk12-sponsor-app/production/*",
+          ],
+        }
+      ],
+    }
+  end
+end
+
+# vim: set ft=ruby :
